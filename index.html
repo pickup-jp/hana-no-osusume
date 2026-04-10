@@ -441,22 +441,167 @@
       line-height: 1.5;
     }
 
+    /* ===== シェアモーダル ===== */
+    .share-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .share-modal.show {
+      display: flex;
+    }
+
+    .share-modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.2s ease;
+    }
+
+    .share-modal-sheet {
+      position: relative;
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px 20px 0 0;
+      padding: 22px 20px 28px;
+      animation: slideUp 0.28s cubic-bezier(.4, 0, .2, 1);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    .share-modal-handle {
+      width: 40px;
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .share-modal-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 18px;
+    }
+
+    .share-options {
+      display: flex;
+      justify-content: space-around;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .share-option {
+      flex: 1;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 4px;
+      transition: transform 0.1s;
+      font-family: inherit;
+    }
+
+    .share-option:active {
+      transform: scale(0.94);
+    }
+
+    .share-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .share-icon svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    .share-line   .share-icon { background: #06C755; }
+    .share-instagram .share-icon {
+      background: radial-gradient(circle at 30% 107%,
+        #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+    .share-tiktok .share-icon {
+      background: #000;
+      position: relative;
+    }
+    .share-copy   .share-icon { background: #8a8a8a; }
+
+    .share-label {
+      font-size: 11px;
+      color: #555;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .share-cancel {
+      width: 100%;
+      background: #f4f4f4;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+
+    .share-cancel:hover  { background: #ededed; }
+    .share-cancel:active { background: #e0e0e0; }
+
     /* ===== トースト通知 ===== */
     .toast {
       position: fixed;
       bottom: 28px;
       left: 50%;
       transform: translateX(-50%) translateY(60px);
-      background-color: rgba(30, 30, 30, 0.88);
+      background-color: rgba(30, 30, 30, 0.9);
       color: #fff;
-      padding: 10px 22px;
-      border-radius: 24px;
-      font-size: 13px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 12.5px;
+      line-height: 1.5;
       transition: transform 0.28s cubic-bezier(.4,0,.2,1), opacity 0.28s;
-      z-index: 200;
-      white-space: nowrap;
+      z-index: 1100;
+      max-width: calc(100% - 40px);
+      width: max-content;
+      text-align: center;
       pointer-events: none;
       opacity: 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
 
     .toast.show {
@@ -544,6 +689,51 @@
     <div class="disclosure" id="disclosure"></div>
   </footer>
 
+</div>
+
+<!-- シェアモーダル -->
+<div class="share-modal" id="share-modal" role="dialog" aria-modal="true">
+  <div class="share-modal-backdrop"></div>
+  <div class="share-modal-sheet">
+    <div class="share-modal-handle"></div>
+    <div class="share-modal-title">このページをシェア</div>
+    <div class="share-options">
+      <button class="share-option share-line" type="button" data-action="line" title="LINEでシェア">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.346 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+        </div>
+        <div class="share-label">LINE</div>
+      </button>
+      <button class="share-option share-instagram" type="button" data-action="instagram" title="Instagramでシェア">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <div class="share-label">Instagram</div>
+      </button>
+      <button class="share-option share-tiktok" type="button" data-action="tiktok" title="TikTokでシェア">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/>
+          </svg>
+        </div>
+        <div class="share-label">TikTok</div>
+      </button>
+      <button class="share-option share-copy" type="button" data-action="copy" title="URLをコピー">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+          </svg>
+        </div>
+        <div class="share-label">URLコピー</div>
+      </button>
+    </div>
+    <button type="button" class="share-cancel" id="share-cancel">キャンセル</button>
+  </div>
 </div>
 
 <!-- トースト通知 -->
@@ -738,25 +928,86 @@
     filterItems();
   });
 
-  /* ---------- シェアボタン ---------- */
-  document.getElementById('share-btn').addEventListener('click', function () {
-    var url = window.location.href;
-    if (navigator.share) {
-      navigator.share({ title: siteName, url: url }).catch(function (e) {
-        if (e.name !== 'AbortError') copyURL(url);
-      });
-    } else {
-      copyURL(url);
+  /* ---------- シェアモーダル ---------- */
+  var shareModal   = document.getElementById('share-modal');
+  var shareBackdrop = shareModal.querySelector('.share-modal-backdrop');
+  var shareCancel  = document.getElementById('share-cancel');
+
+  function openShareModal()  { shareModal.classList.add('show'); }
+  function closeShareModal() { shareModal.classList.remove('show'); }
+
+  document.getElementById('share-btn').addEventListener('click', openShareModal);
+  shareCancel.addEventListener('click', closeShareModal);
+  shareBackdrop.addEventListener('click', closeShareModal);
+
+  // Escキーで閉じる
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && shareModal.classList.contains('show')) {
+      closeShareModal();
     }
   });
 
-  function copyURL(url) {
-    if (navigator.clipboard) {
+  // 各シェアボタンの動作
+  document.querySelectorAll('.share-option').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var action = btn.dataset.action;
+      var url   = window.location.href;
+      var title = siteName;
+
+      switch (action) {
+        case 'line':
+          // LINEの公式シェアURL（アプリ or Webで開く）
+          window.open(
+            'https://line.me/R/msg/text/?' + encodeURIComponent(title + '\n' + url),
+            '_blank',
+            'noopener'
+          );
+          break;
+
+        case 'instagram':
+          // InstagramはURLシェアに非対応のため、URLをコピーしてガイド
+          copyURL(url, 'URLをコピーしました！Instagramのストーリーやプロフィールに貼り付けてください');
+          break;
+
+        case 'tiktok':
+          // TikTokもURLシェアに非対応のため、URLをコピーしてガイド
+          copyURL(url, 'URLをコピーしました！TikTokのプロフィールやメッセージに貼り付けてください');
+          break;
+
+        case 'copy':
+          copyURL(url, 'URLをコピーしました ✓');
+          break;
+      }
+
+      closeShareModal();
+    });
+  });
+
+  function copyURL(url, successMsg) {
+    var msg = successMsg || 'URLをコピーしました ✓';
+    if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(url)
-        .then(function ()  { showToast('URLをコピーしました ✓'); })
-        .catch(function () { showToast('コピーできませんでした'); });
+        .then(function ()  { showToast(msg); })
+        .catch(function () { fallbackCopy(url, msg); });
     } else {
-      showToast('シェア機能はこのブラウザでは未対応です');
+      fallbackCopy(url, msg);
+    }
+  }
+
+  function fallbackCopy(text, msg) {
+    // 古いブラウザ用フォールバック
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity  = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast(ok ? msg : 'コピーに失敗しました');
+    } catch (e) {
+      showToast('コピーに失敗しました');
     }
   }
 
@@ -764,7 +1015,9 @@
     var t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(function () { t.classList.remove('show'); }, 2500);
+    // 長いメッセージは少し長めに表示
+    var dur = msg.length > 20 ? 3800 : 2500;
+    setTimeout(function () { t.classList.remove('show'); }, dur);
   }
 })();
 </script>
