@@ -29,23 +29,24 @@
       overflow: hidden;
       display: flex;
       align-items: center;
+      justify-content: center;
+      padding: 0 14px;
     }
 
     .notice-track {
       display: flex;
-      width: max-content;
-      animation: marquee 40s linear infinite;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
     }
 
     .notice-track span {
       white-space: nowrap;
-      font-size: 11.5px;
+      font-size: 11px;
       letter-spacing: 0.02em;
-    }
-
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
     }
 
     /* ===== メインコンテナ ===== */
@@ -577,12 +578,9 @@
 
   if (data.notice && data.notice.text) {
     banner.style.backgroundColor = data.notice.backgroundColor || '#343434';
-    var txt   = data.notice.text + '\u3000\u3000\u3000\u3000\u3000';
     var color = data.notice.textColor || '#e8f9fc';
-    var block = Array(15).fill(txt).join('');
     track.innerHTML =
-      '<span style="color:' + color + '">' + escapeHtml(block) + '</span>' +
-      '<span style="color:' + color + '" aria-hidden="true">' + escapeHtml(block) + '</span>';
+      '<span style="color:' + color + '">' + escapeHtml(data.notice.text) + '</span>';
   }
 
   /* ---------- プロフィール ---------- */
