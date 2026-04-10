@@ -518,7 +518,7 @@
 
     .share-options {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 4px;
       margin-bottom: 22px;
     }
@@ -557,10 +557,12 @@
       fill: #fff;
     }
 
-    .share-line   .share-icon { background: #06C755; }
-    .share-x      .share-icon { background: #000; }
+    .share-line    .share-icon { background: #06C755; }
+    .share-x       .share-icon { background: #000; }
     .share-threads .share-icon { background: #000; }
-    .share-copy   .share-icon { background: #8a8a8a; }
+    .share-copy    .share-icon { background: #8a8a8a; }
+    .share-facebook .share-icon { background: #1877F2; }
+    .share-hatena   .share-icon { background: #00A4DE; }
 
     .share-label {
       font-size: 11px;
@@ -727,6 +729,22 @@
           </svg>
         </div>
         <div class="share-label">URLコピー</div>
+      </button>
+      <button class="share-option share-facebook" type="button" data-action="facebook" title="Facebookでシェア">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </div>
+        <div class="share-label">Facebook</div>
+      </button>
+      <button class="share-option share-hatena" type="button" data-action="hatena" title="はてなブックマークでシェア">
+        <div class="share-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94C24 22.42 22.42 24 20.47 24H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94zm-3.705 14.47c-.78 0-1.41.63-1.41 1.41s.63 1.414 1.41 1.414 1.41-.634 1.41-1.414-.63-1.41-1.41-1.41zm-9.555-1.24v3.45h3.03c1.125 0 1.92-.015 2.37-.375.435-.345.66-.78.66-1.32 0-.405-.12-.735-.345-.99-.225-.255-.57-.42-1.035-.495.39-.12.675-.285.87-.51.195-.225.285-.51.285-.855 0-.51-.195-.9-.585-1.17-.39-.255-1.005-.39-1.86-.39l-3.39.006v2.649zm7.755-5.46l-.705.015c-.645.03-1.11.225-1.395.585s-.42.87-.42 1.545v.54h-.795v1.2h.795v4.53h1.545v-4.53h1.155l.165-1.2H14.17v-.435c0-.285.06-.48.18-.585.12-.105.345-.165.66-.165h.945l.01-1.5zM8.655 11.91h1.185c.405 0 .69.06.855.195.165.12.255.315.255.585 0 .255-.09.45-.255.585-.165.12-.45.195-.855.195H8.655v-1.56zm.03 2.67h1.305c.465 0 .78.075.96.21.18.135.27.36.27.66 0 .285-.09.51-.285.645-.195.135-.51.21-.945.21H8.685v-1.725z"/>
+          </svg>
+        </div>
+        <div class="share-label">はてなブックマーク</div>
       </button>
     </div>
     <button type="button" class="share-cancel" id="share-cancel">キャンセル</button>
@@ -982,6 +1000,22 @@
 
         case 'copy':
           copyURL(url, 'URLをコピーしました ✓');
+          break;
+
+        case 'facebook':
+          window.open(
+            'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
+            '_blank',
+            'noopener'
+          );
+          break;
+
+        case 'hatena':
+          window.open(
+            'https://b.hatena.ne.jp/entry/s/' + encodeURIComponent(url).replace(/^https?%3A%2F%2F/, ''),
+            '_blank',
+            'noopener'
+          );
           break;
       }
 
