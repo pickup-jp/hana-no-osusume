@@ -47,8 +47,8 @@ var SITE_DATA = {
   /* ===== プロフィール ===== */
   profile: {
     name:  "ハナのおすすめ",
-    image: null,                    // 例: "images/profile.jpg"
-    bio:   null                     // 例: "毎日のくらしを便利に♪"
+    image: "images/profile.png",
+    bio:   null
   },
 
   /* ===== お知らせバナー ===== */
