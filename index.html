@@ -6,6 +6,14 @@
   <meta name="description" content="おすすめ商品まとめ">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L091V4X7ZY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L091V4X7ZY');
+  </script>
   <title>読込中...</title>
   <style>
     *, *::before, *::after {
@@ -870,13 +878,15 @@
       if (p.rakutenUrl) {
         btnHtml +=
           '<a class="btn-shop btn-rakuten" href="' + escapeHtml(p.rakutenUrl) + '"' +
-          ' target="_blank" rel="noopener noreferrer sponsored">' +
+          ' target="_blank" rel="noopener noreferrer sponsored"' +
+          ' data-ga-store="rakuten" data-ga-title="' + escapeHtml(p.title || '') + '">' +
           '<span class="btn-icon">🛍</span>楽天で見る</a>';
       }
       if (p.amazonUrl) {
         btnHtml +=
           '<a class="btn-shop btn-amazon" href="' + escapeHtml(p.amazonUrl) + '"' +
-          ' target="_blank" rel="noopener noreferrer sponsored">' +
+          ' target="_blank" rel="noopener noreferrer sponsored"' +
+          ' data-ga-store="amazon" data-ga-title="' + escapeHtml(p.title || '') + '">' +
           '<span class="btn-icon">📦</span>Amazonで見る</a>';
       }
       btnHtml += '</div>';
@@ -1059,6 +1069,20 @@
     var dur = msg.length > 20 ? 3800 : 2500;
     setTimeout(function () { t.classList.remove('show'); }, dur);
   }
+
+  /* ---------- アフィリエイトボタン クリック計測（GA4） ---------- */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-ga-store]');
+    if (!btn) return;
+    var store = btn.getAttribute('data-ga-store'); // "rakuten" or "amazon"
+    var title = btn.getAttribute('data-ga-title') || '';
+    if (typeof gtag === 'function') {
+      gtag('event', 'affiliate_click', {
+        store:        store,
+        product_name: title
+      });
+    }
+  });
 })();
 </script>
 </body>
